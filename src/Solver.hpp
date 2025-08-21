@@ -21,11 +21,13 @@ public:
 	double spring_k;
 	double bend_k;
 	double collision_k;
+	int max_solver_iter;
 
 	Solver() :
 		spring_k(100),
 		bend_k(100),
-		collision_k(300)
+		collision_k(300),
+		max_solver_iter(400)
 		{}
 
 	// Initalizes state variables, returns true if success
@@ -99,8 +101,7 @@ public:
 		MatrixXd grad = MatrixXd::Zero(x.rows(), 3);
 		MatrixXd xk = MatrixXd::Zero(x.rows(), 3);
 
-		int max_iters = 400;
-		for (int iter = 0; iter < max_iters; ++iter)
+		for (int iter = 0; iter < max_solver_iter; ++iter)
 		{
 			// Compute current energy and gradient
 			xk = x; // store state at current iteration

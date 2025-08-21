@@ -24,9 +24,6 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	// Shrink the sphere (radius 1, centered about origin)
-	//cV *= 0.75;
-
 	// Move cloth above the sphere
 	V.col(1).array() += 0.6;
 

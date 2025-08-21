@@ -23,9 +23,6 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	// Shrink the sphere (radius 1, centered about origin)
-	//cV *= 0.75;
-
 	// Move cloth above the sphere
 	V.col(1).array() += 0.5;
 
@@ -39,6 +36,11 @@ int main(int argc, char *argv[])
 	// Create solver
 	double dt = 1.0 / 24.0;
 	Solver solver;
+
+	// 20 iters won't converge but it will test
+	// all the functions are operational.
+	solver.max_solver_iter = 20;
+	
 	if (!solver.initialize(cloth))
 	{
 		return EXIT_FAILURE;
