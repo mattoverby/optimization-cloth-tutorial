@@ -5,7 +5,6 @@
 #include <igl/readOBJ.h>
 #include <iostream>
 #include <Eigen/Geometry>
-
 #include "Solver.hpp"
 
 using namespace Eigen;
@@ -18,9 +17,9 @@ int main(int argc, char *argv[])
 
 	std::string plane = CLOTH_ROOT_DIR "/data/plane.obj";
 	std::string sphere = CLOTH_ROOT_DIR "/data/sphere.obj";
-	MatrixXd V, cV;
-	MatrixXi F, cF;
-	if (!igl::readOBJ(plane, V, F) || !igl::readOBJ(sphere, cV, cF))
+	MatrixXd V, sphereV;
+	MatrixXi F, sphereF;
+	if (!igl::readOBJ(plane, V, F) || !igl::readOBJ(sphere, sphereV, sphereF))
 	{
 		return EXIT_FAILURE;
 	}
@@ -29,7 +28,7 @@ int main(int argc, char *argv[])
 	//cV *= 0.75;
 
 	// Move cloth above the sphere
-	V.col(1).array() += 0.5;
+	V.col(1).array() += 0.6;
 
 	// Create cloth object
 	ClothMesh cloth;
@@ -46,21 +45,16 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	// Create combined matrices to pass to igl
-	MatrixXd fullX(V.rows() + cV.rows(), 3);
-	fullX.topRows(V.rows()) = solver.x;
-	fullX.bottomRows(cV.rows()) = cV;
-	MatrixXi fullF(F.rows() + cF.rows(), 3);
-	fullF.topRows(F.rows()) = F;
-	fullF.bottomRows(cF.rows()) = cF;
-	fullF.bottomRows(cF.rows()).array() += V.rows();
-
 	std::cout << "Press A to simulate, R to reset" << std::endl;
 
 	// Create viewer
 	igl::opengl::glfw::Viewer viewer;
 	viewer.data().set_face_based(true);
-	viewer.data().set_mesh(fullX, fullF);
+	viewer.data().set_mesh(V, F);
+	viewer.data().set_colors(RowVector3d(0.659, 0.847, 1));
+	viewer.append_mesh();
+	viewer.data(1).set_mesh(sphereV, sphereF);
+	viewer.data(1).set_colors(RowVector3d(0.7, 0.7, 0.7));
 	viewer.core().is_animating = false;
 
 	viewer.callback_key_pressed = [&](igl::opengl::glfw::Viewer&, unsigned int key, int)->bool
@@ -78,9 +72,9 @@ int main(int argc, char *argv[])
 		if (viewer.core().is_animating)
 		{
 			solver.solve(cloth, objective, dt); // solve the time step
-			fullX.topRows(V.rows()) = solver.x; // update vertex positions
-			viewer.data().set_mesh(fullX, fullF);
-			viewer.data().compute_normals(); // update normals after defo
+			V = solver.x; // update vertex positions
+			viewer.data(0).set_mesh(V, F);
+			viewer.data(0).compute_normals(); // update normals after defo
 		}
 		return false;
 	};
