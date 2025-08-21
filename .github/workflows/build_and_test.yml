@@ -20,8 +20,8 @@ jobs:
         sudo apt-get install -y build-essential cmake
 
     - name: build
+      working-directory: ${{ github.workspace }}/optimization-cloth-tutorial
       run: |
-        cd optimization-cloth-tutorial
         cmake -DCLOTH_DEBUG=ON .
         make -j
 
