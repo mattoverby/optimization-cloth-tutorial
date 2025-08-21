@@ -35,12 +35,12 @@ file(GLOB SRC
 # Create binary
 if (NOT CLOTH_TESTING_ONLY)
 	igl_include(glfw)
-	add_executable(${PROJECT_NAME} ${SRC})
+	add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/test/main.cpp ${SRC})
 	target_link_libraries(${PROJECT_NAME} PUBLIC igl::glfw)
 endif()
 
 # Unit testing (work in progress)
 enable_testing()
-add_executable(cloth_test ${CMAKE_CURRENT_SOURCE_DIR}/test/test.cpp)
+add_executable(cloth_test ${CMAKE_CURRENT_SOURCE_DIR}/test/test.cpp ${SRC})
 target_link_libraries(cloth_test PUBLIC igl::core)
 add_test(NAME TestClothSolver COMMAND cloth_test)

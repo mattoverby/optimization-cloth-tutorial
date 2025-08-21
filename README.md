@@ -42,7 +42,7 @@ that is computed at the beginning of the time step. Computing a frame of animati
 ### Interface
 
 Below we lay out the steps to produce an optimization-based solver for implicit cloth simulation.
-The dependencies will be fetched through a [DownloadProject](https://github.com/Crascit/DownloadProject) CMake script.
+The dependencies will be downloaded using a [FetchContent](cmake/libigl.cmake) CMake script.
 [Eigen](https://eigen.tuxfamily.org) is used for linear algebra, which is an industry standard library for vector math.
 Rendering and mesh I/O is handled with [libigl](https://libigl.github.io) which also contains many excellent routines for mesh processing.
 In libigl, meshes are stored as two dense matrices, an nx3 matrix for vertices and an mx3 matrix for faces.
