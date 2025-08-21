@@ -30,10 +30,11 @@ For that, you'll want to consider higher-order optimization algorithms or [local
 
 The objective we aim to minimize is the sum of internal elastic energy potentials plus a quadratic penalty of linear momentum:
 
-$`\bar{x} = x + hv + h^2 M^{-1} f_{ext}`$
+$`\bar{x} = x + hv + h^2 M^{-1} f_{ext}`$,
+
 $`g(x) = \frac{1}{2h^2}\|M^{1/2}(x-\bar{x})\|^2 + \sum E(x)`$,
 
-for vertex locations *x*, time step (sec) *h*, diagonal mass matrix *M*, velocities *v*, and external forces (gravity, wind, etc...)
+for vertex locations $x$, time step (sec) $h$, diagonal mass matrix $M$, velocities $v$, and external forces (gravity, wind, etc...)
 $`f_{ext}`$. The term $`\bar{x}`$ is the *explicit predictor*
 that is computed at the beginning of the time step. Computing a frame of animation amounts to iteratively minimizing the above objective until some convergence criteria is met
 (e.g., the norm of the gradient is below some threshold).
@@ -56,16 +57,16 @@ To compile, execute the following commands:
 
 ### Energies
 
-Whenever I write a new simulator, I start with the most basic elastic energy as the deformable primitives: a Hookean spring with stiffness *k* and rest length $`\ell`$. The potential energy of a spring is $`(k/2)(\|x_a-x_b\|-\ell)^2`$.
+Whenever I write a new simulator, I start with the most basic elastic energy as the deformable primitives: a Hookean spring with stiffness $k$ and rest length $`\ell`$. The potential energy of a spring is $`(k/2)(\|x_a-x_b\|-\ell)^2`$.
 These springs are created from the unique edges of tCe triangle mesh, with bending springs created between adjacent triangles.
 The [ClothMesh class](src/ClothMesh.hpp) generates this data given vertex and face buffers.
 We can also evaluate temporary springs to deal with collisions. One end point is the vertex, and the other is the projection onto the surface it's penetrating.
 
 ### Optimization
 
-[Gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) is a simple first-order method that steps along the negative gradient w.r.t. *x* at each iteration: $`p = -\nabla g(x^i)`$. We use *i* to denote the iteration and *p* as the descent direction. By all accounts, gradient descent is a poor choice due to its low rate of convergence. You can certainly improve performance with other higher-order optimizers. However, I personally advocate starting with gradient descent when writing new optimization code. The optimizer is so simple it's hard to make a mistake - if there are bugs, they are surely in your energy or gradient calculations. This can be a helpful debugging strategy!
+[Gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) is a simple first-order method that steps along the negative gradient w.r.t. $x$ at each iteration: $`p = -\nabla g(x^i)`$. We use $i$ to denote the iteration and $p$ as the descent direction. By all accounts, gradient descent is a poor choice due to its low rate of convergence. You can certainly improve performance with other higher-order optimizers. However, I personally advocate starting with gradient descent when writing new optimization code. The optimizer is so simple it's hard to make a mistake - if there are bugs, they are surely in your energy or gradient calculations. This can be a helpful debugging strategy!
 
-Each iteration, we have to make sure we aren't overshooting the objective and increase the energy. This is accomplished by scaling the descent direction with a scalar *s* using [line search](https://en.wikipedia.org/wiki/Line_search). All together, an iteration of gradient descent involves:
+Each iteration, we have to make sure we aren't overshooting the objective and increase the energy. This is accomplished by scaling the descent direction with a scalar $s$ using [line search](https://en.wikipedia.org/wiki/Line_search). All together, an iteration of gradient descent involves:
 
 $`p = -\nabla g(x^i)`$,<br>
 $`s = linesearch(x^i, p)`$,<br>
