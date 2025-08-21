@@ -30,7 +30,7 @@ For that, you'll want to consider higher-order optimization algorithms or [local
 
 The objective we aim to minimize is the sum of internal elastic energy potentials plus a quadratic penalty of linear momentum:
 
-<p align=center>
+<p align="center">
 $`\bar{x} = x + hv + h^2 M^{-1} f_{ext}`$,
 
 $`g(x) = \frac{1}{2h^2}\|M^{1/2}(x-\bar{x})\|^2 + \sum E(x)`$,
@@ -70,7 +70,7 @@ We can also evaluate temporary springs to deal with collisions. One end point is
 
 Each iteration, we have to make sure we aren't overshooting the objective and increase the energy. This is accomplished by scaling the descent direction with a scalar $s$ using [line search](https://en.wikipedia.org/wiki/Line_search). All together, an iteration of gradient descent involves:
 
-<p align=center>
+<p align="center">
 $`p = -\nabla g(x_i)`$,
 
 $`s = linesearch(x_i, p)`$,
