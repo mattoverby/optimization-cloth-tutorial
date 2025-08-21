@@ -30,9 +30,11 @@ For that, you'll want to consider higher-order optimization algorithms or [local
 
 The objective we aim to minimize is the sum of internal elastic energy potentials plus a quadratic penalty of linear momentum:
 
+<p align=center>
 $`\bar{x} = x + hv + h^2 M^{-1} f_{ext}`$,
 
 $`g(x) = \frac{1}{2h^2}\|M^{1/2}(x-\bar{x})\|^2 + \sum E(x)`$,
+<p>
 
 for vertex locations $x$, time step (sec) $h$, diagonal mass matrix $M$, velocities $v$, and external forces (gravity, wind, etc...)
 $`f_{ext}`$. The term $`\bar{x}`$ is the *explicit predictor*
@@ -68,9 +70,13 @@ We can also evaluate temporary springs to deal with collisions. One end point is
 
 Each iteration, we have to make sure we aren't overshooting the objective and increase the energy. This is accomplished by scaling the descent direction with a scalar $s$ using [line search](https://en.wikipedia.org/wiki/Line_search). All together, an iteration of gradient descent involves:
 
-$`p = -\nabla g(x_i)`$,<br>
-$`s = linesearch(x_i, p)`$,<br>
+<p align=center>
+$`p = -\nabla g(x_i)`$,
+
+$`s = linesearch(x_i, p)`$,
+
 $`x_{i + 1} = x_i + s * p`$.
+<p>
 
 Both energy and gradient use similar calculations so you can save resources (and implementation efforts) by computing them both at same time. I like to use one function for both and skip gradient calculation with a conditional during line search. You can see the evaluation of the objective and gradient in the [Objective class](src/Objective.hpp), with gradient descent in [Solver](src/Solver.hpp).
 
