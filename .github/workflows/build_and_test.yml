@@ -21,6 +21,7 @@ jobs:
 
     - name: build
       run: |
+        cd optimization-cloth-tutorial
         cmake -DCLOTH_DEBUG=ON .
         make -j
 
