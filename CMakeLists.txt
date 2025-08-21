@@ -5,6 +5,8 @@ cmake_minimum_required(VERSION 3.5)
 project(cloth_sim_tutorial LANGUAGES CXX)
 
 option(CLOTH_DEBUG "run with debug options" OFF)
+option(CLOTH_TESTING_ONLY "only compile unit tests" OFF)
+
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -23,7 +25,6 @@ endif()
 
 # Libigl also includes Eigen, etc
 include(libigl)
-igl_include(glfw)
 
 # Gather src
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -32,11 +33,14 @@ file(GLOB SRC
 	${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
 # Create binary
-add_executable(${PROJECT_NAME} ${SRC})
-target_link_libraries(${PROJECT_NAME} PUBLIC igl::glfw)
+if (NOT CLOTH_TESTING_ONLY)
+	igl_include(glfw)
+	add_executable(${PROJECT_NAME} ${SRC})
+	target_link_libraries(${PROJECT_NAME} PUBLIC igl::glfw)
+endif()
 
 # Unit testing (work in progress)
 enable_testing()
 add_executable(cloth_test ${CMAKE_CURRENT_SOURCE_DIR}/test/test.cpp)
-target_link_libraries(cloth_test PUBLIC igl::glfw)
+target_link_libraries(cloth_test PUBLIC igl::core)
 add_test(NAME TestClothSolver COMMAND cloth_test)

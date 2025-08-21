@@ -22,7 +22,7 @@ jobs:
     - name: build
       working-directory: ${{ github.workspace }} 
       run: |
-        cmake -DCLOTH_DEBUG=ON .
+        cmake -DCLOTH_TESTING_ONLY=ON .
         make -j
 
     - name: test
