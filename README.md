@@ -58,7 +58,7 @@ To compile, execute the following commands:
 
 Whenever I write a new simulator, I start with the most basic elastic energy as the deformable primitives: a Hookean spring with stiffness *k* and rest length <img src="https://render.githubusercontent.com/render/math?math=\ell">. The potential energy of a spring is <img src="https://render.githubusercontent.com/render/math?math=(k/2)(\|x_a-x_b\|-\ell)^2">.
 These springs are created from the unique edges of tCe triangle mesh, with bending springs created between adjacent triangles.
-The [Cloth class](src/cloth.hpp) generates this data given vertex and face buffers.
+The [ClothMesh class](src/ClothMesh.hpp) generates this data given vertex and face buffers.
 We can also evaluate temporary springs to deal with collisions. One end point is the vertex, and the other is the projection onto the surface it's penetrating.
 
 ### Optimization
