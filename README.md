@@ -64,13 +64,13 @@ We can also evaluate temporary springs to deal with collisions. One end point is
 
 ### Optimization
 
-[Gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) is a simple first-order method that steps along the negative gradient w.r.t. $x$ at each iteration: $`p = -\nabla g(x^i)`$. We use $i$ to denote the iteration and $p$ as the descent direction. By all accounts, gradient descent is a poor choice due to its low rate of convergence. You can certainly improve performance with other higher-order optimizers. However, I personally advocate starting with gradient descent when writing new optimization code. The optimizer is so simple it's hard to make a mistake - if there are bugs, they are surely in your energy or gradient calculations. This can be a helpful debugging strategy!
+[Gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) is a simple first-order method that steps along the negative gradient w.r.t. $x$ at each iteration: $`p = -\nabla g(x_i)`$. We use $i$ to denote the iteration and $p$ as the descent direction. By all accounts, gradient descent is a poor choice due to its low rate of convergence. You can certainly improve performance with other higher-order optimizers. However, I personally advocate starting with gradient descent when writing new optimization code. The optimizer is so simple it's hard to make a mistake - if there are bugs, they are surely in your energy or gradient calculations. This can be a helpful debugging strategy!
 
 Each iteration, we have to make sure we aren't overshooting the objective and increase the energy. This is accomplished by scaling the descent direction with a scalar $s$ using [line search](https://en.wikipedia.org/wiki/Line_search). All together, an iteration of gradient descent involves:
 
-$`p = -\nabla g(x^i)`$,<br>
-$`s = linesearch(x^i, p)`$,<br>
-$`x^{i + 1} = x^i + s * p`$.
+$`p = -\nabla g(x_i)`$,<br>
+$`s = linesearch(x_i, p)`$,<br>
+$`x_{i + 1} = x_i + s * p`$.
 
 Both energy and gradient use similar calculations so you can save resources (and implementation efforts) by computing them both at same time. I like to use one function for both and skip gradient calculation with a conditional during line search. You can see the evaluation of the objective and gradient in the [Objective class](src/Objective.hpp), with gradient descent in [Solver](src/Solver.hpp).
 
