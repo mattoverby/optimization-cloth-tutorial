@@ -34,7 +34,7 @@ The objective we aim to minimize is the sum of internal elastic energy potential
 $`\bar{x} = x + hv + h^2 M^{-1} f_{ext}`$,
 
 $`g(x) = \frac{1}{2h^2}\|M^{1/2}(x-\bar{x})\|^2 + \sum E(x)`$,
-<p>
+</p>
 
 for vertex locations $x$, time step (sec) $h$, diagonal mass matrix $M$, velocities $v$, and external forces (gravity, wind, etc...)
 $`f_{ext}`$. The term $`\bar{x}`$ is the *explicit predictor*
@@ -76,7 +76,7 @@ $`p = -\nabla g(x_i)`$,
 $`s = linesearch(x_i, p)`$,
 
 $`x_{i + 1} = x_i + s * p`$.
-<p>
+</p>
 
 Both energy and gradient use similar calculations so you can save resources (and implementation efforts) by computing them both at same time. I like to use one function for both and skip gradient calculation with a conditional during line search. You can see the evaluation of the objective and gradient in the [Objective class](src/Objective.hpp), with gradient descent in [Solver](src/Solver.hpp).
 
