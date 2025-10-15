@@ -15,7 +15,7 @@ This results in a block-sparse linear system for which the velocity deltas are s
 
 The B&W method is conceptually straight forward. However, there are numerous gotchas not apparent in the original references.
 In particular, working out the Jacobians of some models can be nontrivial. Even when correct, the derivatives can still produce hard-to-debug instabilities.
-The [dynamic deformables course notes](https://doi.org/10.1145/3388769.3407490) describes this well, and I highly recommend reviewing the later chapters on cloth simulation for a thorough review of the topic.
+The [dynamic deformables course notes](https://doi.org/10.1145/3388769.3407490) describes this well, and I highly recommend reviewing the later chapters on cloth simulation.
 Nonetheless, implicit time integration remains a valuable and sometimes necessary tool for modern graphics applications.
 
 Recently, optimization-based methods have grown in popularity. This approach formulates the Eqs. of motion as an [iteratively minimized objective function](https://en.wikipedia.org/wiki/Optimization_problem).
@@ -34,7 +34,7 @@ $`\bar{x} = x + hv + h^2 M^{-1} f_{ext}`$,
 
 $`g(x) = \frac{1}{2h^2}\|M^{1/2}(x-\bar{x})\|^2 + \sum E(x)`$,
 
-for vertex locations $x$, time step (sec) $h$, diagonal mass matrix $M$, velocities $v$, and external forces (gravity, wind, etc...)
+for vertex locations $x$, time step (seconds) $h$, diagonal mass matrix $M$, velocities $v$, and external forces (gravity, wind, etc...)
 $`f_{ext}`$. The term $`\bar{x}`$ is the *explicit predictor*
 that is computed at the beginning of the time step. Computing a frame of animation amounts to iteratively minimizing the above objective until some convergence criteria is met
 (e.g., the norm of the gradient is below some threshold).
