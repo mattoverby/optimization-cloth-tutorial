@@ -4,29 +4,28 @@
 #ifndef CLOTHASSERT_HPP
 #define CLOTHASSERT_HPP 1
 
-#include <cstdlib> 
-#include <string>
+#include <cstdlib>
 #include <stdexcept>
+#include <string>
 
-namespace cloth
-{
+namespace cloth {
 
-static inline void AssertHandler(bool cond, const std::string& file, const int& line)
+static inline void
+AssertHandler(bool cond, const std::string& file, const int& line)
 {
-	if (!cond)
-	{
-		std::string err_msg = "Assertion failed in "+file+" line "+std::to_string(line);
-		throw std::runtime_error(err_msg.c_str());
-	}
+    if (!cond) {
+        std::string err_msg = "Assertion failed in " + file + " line " + std::to_string(line);
+        throw std::runtime_error(err_msg.c_str());
+    }
 }
 
-static inline void AssertHandlerMsg(bool cond, const std::string& file, const int& line, const std::string &msg)
+static inline void
+AssertHandlerMsg(bool cond, const std::string& file, const int& line, const std::string& msg)
 {
-	if (!cond)
-	{
-		std::string err_msg = "Assertion failed in "+file+" line "+std::to_string(line)+": "+msg;
-		throw std::runtime_error(err_msg.c_str());
-	}
+    if (!cond) {
+        std::string err_msg = "Assertion failed in " + file + " line " + std::to_string(line) + ": " + msg;
+        throw std::runtime_error(err_msg.c_str());
+    }
 }
 
 }
@@ -37,12 +36,9 @@ static inline void AssertHandlerMsg(bool cond, const std::string& file, const in
 
 #define ClothAssert_withmsg(cond, msg) AssertHandlerMsg(cond, std::string(__FILE__), __LINE__, msg)
 #define ClothAssert_nomsg(cond) AssertHandler(cond, std::string(__FILE__), __LINE__)
-#define ClothAssert_stripargs(xx,cond,msg,FUNC, ...) FUNC
+#define ClothAssert_stripargs(xx, cond, msg, FUNC, ...) FUNC
 
-#define ClothAssert(...) \
-	ClothAssert_stripargs(,##__VA_ARGS__,\
-	ClothAssert_withmsg(__VA_ARGS__),\
-	ClothAssert_nomsg(__VA_ARGS__),\
-	)
+#define ClothAssert(...)                                                                                               \
+    ClothAssert_stripargs(, ##__VA_ARGS__, ClothAssert_withmsg(__VA_ARGS__), ClothAssert_nomsg(__VA_ARGS__), )
 
 #endif

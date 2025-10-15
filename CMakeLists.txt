@@ -7,7 +7,7 @@ project(cloth_sim_tutorial LANGUAGES CXX)
 option(CLOTH_DEBUG "run with debug options" OFF)
 option(CLOTH_TESTING_ONLY "only compile unit tests" OFF)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 add_definitions(-DCLOTH_ROOT_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
