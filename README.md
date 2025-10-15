@@ -26,6 +26,8 @@ Below we describe a simple implicit solver for mass-spring systems using gradien
 This is meant solely as a tutorial to optimization-based time stepping, and not for practical applications.
 For that, you'll want to consider higher-order optimization algorithms or [local-global type solvers](https://github.com/alecjacobson/computer-graphics-mass-spring-systems).
 
+<p align="center"><img src="data/sphere.png" align=middle/></p>
+
 ## Implementation
 
 The objective we aim to minimize is the sum of internal elastic energy potentials plus a quadratic penalty of linear momentum:
@@ -91,4 +93,5 @@ There are many ways to improve the solver illustrated above:
 - Collision against triangle meshes with a [signed distance field](https://github.com/InteractiveComputerGraphics/TriangleMeshDistance)
 - Better energy models with triangular elements ([Dynamic Deformables appendix D](https://doi.org/10.1145/3388769.3407490))
 - Preconditioning or accelerated versions of gradient descent
+- Non-conservative forces like friction
 - Optimizers with better convergence like [L-BFGS](https://en.wikipedia.org/wiki/Limited-memory_BFGS) or [projected Newton](https://doi.org/10.1145/1073368.1073394)
